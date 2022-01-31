@@ -1,3 +1,5 @@
+package org.swetophor.haplotree;
+
 import java.util.LinkedList;
 import java.util.List;
 
