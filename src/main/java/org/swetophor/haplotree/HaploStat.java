@@ -1,5 +1,7 @@
 package org.swetophor.haplotree;
 
+import org.swetophor.population.Individual;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,5 +41,13 @@ public class HaploStat {
         Integer value = haplotypes.get(ofType);
         if (value == null || value == 0) return "–";
         return String.format("%2.0f", (double) value * 100 / actualSize) + "%";
+    }
+
+    public void register(Individual personToCome) {
+        addIndividual(personToCome.getHaplotype());
+    }
+
+    public void exclude(Individual personToLeave) {
+        subtractIndividual(personToLeave.getHaplotype());
     }
 }
