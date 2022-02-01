@@ -1,5 +1,6 @@
 package org.swetophor.haplotree;
 
+import org.swetophor.population.Folk;
 import org.swetophor.population.Individual;
 
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class HaploStat {
     }
 
     public void showStat() {
-        System.out.println("Размер популяции: " + actualSize);
+        System.out.println("Размер популяции: " + actualSize);  // TODO: разнести генерацию текста и вывод
         for (Map.Entry<Haplotype, Integer> type : haplotypes.entrySet()) {
             Haplotype next = type.getKey();
             System.out.printf("\t%s\t- %s%n",
@@ -49,5 +50,10 @@ public class HaploStat {
 
     public void exclude(Individual personToLeave) {
         subtractIndividual(personToLeave.getHaplotype());
+    }
+
+    public void update(Folk folk) {
+        for (Individual person : folk.getAlive()) addIndividual(person.getHaplotype());
+        for (Individual ancestor : folk.getAncestors()) addIndividual(ancestor.getHaplotype());
     }
 }
