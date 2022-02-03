@@ -59,4 +59,8 @@ public class Individual {
     public Haplotype getHaplotype() {
         return haplotype;
     }
+
+    public int getAge() {
+        return age;
+    }
 }
