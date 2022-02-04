@@ -46,14 +46,14 @@ public class Individual {
 
 
     public Individual[] beget() {
-        List<Individual> breed = new ArrayList<>(7);
-        breed.add(new Individual(0, haplotype, base)); // TODO: вставить мутатор
+        List<Individual> brood = new ArrayList<>(7);
+        brood.add(new Individual(0, haplotype, base)); // TODO: вставить мутатор
         double multiplexProbability = 1.0 / MULTIPLEX_FACTOR;
         while (Math.random() < multiplexProbability) {
-            breed.add(new Individual(0, haplotype, base));
+            brood.add(new Individual(0, haplotype, base));
             multiplexProbability /= MULTIPLEX_FACTOR;
         }
-        return breed.toArray(new Individual[0]);
+        return brood.toArray(new Individual[0]);
     }
 
     public Haplotype getHaplotype() {

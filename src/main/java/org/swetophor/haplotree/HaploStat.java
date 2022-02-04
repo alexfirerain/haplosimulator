@@ -36,20 +36,22 @@ public class HaploStat {
         actualSize--;
     }
 
-    public void showStat() {
-        System.out.println("Размер популяции: " + actualSize);  // TODO: разнести генерацию текста и вывод
-        System.out.println("Гаплотипы:");
+    public String livingStat() {
+        StringBuilder report = new StringBuilder();
+        report.append("Размер популяции: %d%n".formatted(actualSize));
+        report.append("Гаплотипы:%n");
         for (Map.Entry<Haplotype, Integer> type : haplotypes.entrySet()) {
             Haplotype next = type.getKey();
-            System.out.printf("\t%s\t- %s%n",
-                    next.getTitle(), percentageFor(next));
+            report.append("\t%s\t- %s%n"
+                    .formatted(next.getTitle(), percentageFor(next)));
         }
-        System.out.println("Мутации:");
+        report.append("Мутации:%n");
         for (Map.Entry<String, Integer> mutation : mutations.entrySet()) {
             String next = mutation.getKey();
-            System.out.printf("\t%s\t- %s%n",
-                    next, percentageFor(next));
+            report.append("\t%s\t- %s%n".
+                    formatted(next, percentageFor(next)));
         }
+        return report.toString();
     }
 
     private String percentageFor(String ofMutations) {
@@ -57,8 +59,6 @@ public class HaploStat {
         if (value == null || value == 0) return "–";
         return "%s%%".formatted(String.format("%2.0f", (double) value * 100 / actualSize));
     }
-
-//    private String
 
     public String percentageFor(Haplotype ofType) {
         Integer value = haplotypes.get(ofType);
@@ -76,6 +76,6 @@ public class HaploStat {
 
     public void update(Folk folk) {
         for (Individual person : folk.getLiving()) addIndividual(person.getHaplotype());
-        for (Individual ancestor : folk.getAncestors()) addIndividual(ancestor.getHaplotype());
+//        for (Individual ancestor : folk.getAncestors()) addIndividual(ancestor.getHaplotype());
     }
 }
