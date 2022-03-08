@@ -9,7 +9,9 @@ public class HaploSimulator {
     public static void main(String[] args) {
         Folk population = new Folk(100, 60);
         System.out.println(population.haploStatistic.livingStat());
-        Arrays.stream(population.getLiving()).map(Individual::getAge).forEach(System.out::println);
+        Arrays.stream(population.getLiving())
+                .map(Individual::getAge)
+                .sorted().forEach(System.out::println);
     }
 
 }

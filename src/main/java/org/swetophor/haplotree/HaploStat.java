@@ -39,13 +39,13 @@ public class HaploStat {
     public String livingStat() {
         StringBuilder report = new StringBuilder();
         report.append("Размер популяции: %d%n".formatted(actualSize));
-        report.append("Гаплотипы:%n");
+        report.append("Гаплотипы:\n");
         for (Map.Entry<Haplotype, Integer> type : haplotypes.entrySet()) {
             Haplotype next = type.getKey();
             report.append("\t%s\t- %s%n"
                     .formatted(next.getTitle(), percentageFor(next)));
         }
-        report.append("Мутации:%n");
+        report.append("Мутации:\n");
         for (Map.Entry<String, Integer> mutation : mutations.entrySet()) {
             String next = mutation.getKey();
             report.append("\t%s\t- %s%n".
@@ -74,6 +74,10 @@ public class HaploStat {
         subtractIndividual(personToLeave.getHaplotype());
     }
 
+    public void buildStat(Individual[] set) {
+        for (Individual person : set) addIndividual(person.getHaplotype());
+//        for (Individual ancestor : folk.getAncestors()) addIndividual(ancestor.getHaplotype());
+    }
     public void update(Folk folk) {
         for (Individual person : folk.getLiving()) addIndividual(person.getHaplotype());
 //        for (Individual ancestor : folk.getAncestors()) addIndividual(ancestor.getHaplotype());

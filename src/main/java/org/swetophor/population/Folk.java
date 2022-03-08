@@ -29,14 +29,14 @@ public class Folk implements Serializable {
         ancestors = new ArrayList<>();
         heads = living.size();
         haploStatistic = new HaploStat();
-        haploStatistic.update(this);
+        haploStatistic.buildStat(population);
     }
     public Folk(Individual[] population, Individual[] ancestors) {
         living = Arrays.asList(population);
         this.ancestors = Arrays.asList(ancestors);
         heads = living.size() + this.ancestors.size();
         haploStatistic = new HaploStat();
-        haploStatistic.update(this);
+        haploStatistic.buildStat(population);
     }
 
     public Folk(int popSize, int lifeSpan) {

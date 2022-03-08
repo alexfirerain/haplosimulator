@@ -11,6 +11,11 @@ public class Individual {
     private static final int MULTIPLEX_FACTOR = 20;
     private int age;
     private final Haplotype haplotype;
+
+    public HaploStat getBase() {
+        return base;
+    }
+
     private final HaploStat base;
 
     public Individual(int age, Haplotype haplotype, HaploStat base) {
