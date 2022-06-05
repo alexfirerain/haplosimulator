@@ -3,6 +3,7 @@ package org.swetophor.haplotree;
 import org.swetophor.population.Folk;
 import org.swetophor.population.Individual;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,8 +11,17 @@ import java.util.Map;
  * Статистика присутствия гаплотипов в популяции.
  */
 public class HaploStat {
+    /**
+     * Счётчик носителей гаплотипов
+     */
     private final Map<Haplotype, Integer> haplotypes;
+    /**
+     * Счётчик носителей конкретных мутаций
+     */
     private final Map<String, Integer> mutations;
+    /**
+     * Счётчик актуального размера популяции
+     */
     private long actualSize;
 
     public HaploStat() {
@@ -19,6 +29,15 @@ public class HaploStat {
         mutations = new HashMap<>();
     }
 
+    public HaploStat(Individual[] population) {
+        this();
+        Arrays.stream(population).forEach(this::register);
+    }
+
+    /**
+     * Учитывает в Статистике гаплотип и мутации нового индивида.
+     * @param ofType гаплотип, несомый новым индивидом.
+     */
     public void addIndividual(Haplotype ofType) {
         if (!haplotypes.containsKey(ofType)) haplotypes.put(ofType, 0);
         haplotypes.put(ofType, haplotypes.get(ofType) + 1);
@@ -28,6 +47,10 @@ public class HaploStat {
         actualSize++;
     }
 
+    /**
+     * Изымает гаплотип и мутации индивида из Статистики.
+     * @param ofType гаплотип, несомый изымаемым индивидом.
+     */
     public void subtractIndividual(Haplotype ofType) {
         if (!haplotypes.containsKey(ofType)) return;
         haplotypes.put(ofType, haplotypes.get(ofType) - 1);
@@ -36,6 +59,11 @@ public class HaploStat {
         actualSize--;
     }
 
+    /**
+     * Сообщает состояние статистики на текущий момент
+     * @return строку с размером популяции, количеством актуальных носителей
+     * каждого гаплотипа и каждой мутации.
+     */
     public String livingStat() {
         StringBuilder report = new StringBuilder();
         report.append("Размер популяции: %d%n".formatted(actualSize));
@@ -51,8 +79,10 @@ public class HaploStat {
             report.append("\t%s\t- %s%n".
                     formatted(next, percentageFor(next)));
         }
+        // TODO: также представлять статистику и по гаплогруппам, когда будут реализованы
         return report.toString();
     }
+
 
     private String percentageFor(String ofMutations) {
         Integer value = mutations.get(ofMutations);
@@ -66,20 +96,26 @@ public class HaploStat {
         return "%s%%".formatted(String.format("%2.0f", (double) value * 100 / actualSize));
     }
 
+    /**
+     * Учитывает в Статистике нового индивида.
+     * @param personToCome прибывающий индивид.
+     */
     public void register(Individual personToCome) {
         addIndividual(personToCome.getHaplotype());
     }
 
+    /**
+     * Изымает индивида из Статистики.
+     * @param personToLeave уходящий индивид.
+     */
     public void exclude(Individual personToLeave) {
         subtractIndividual(personToLeave.getHaplotype());
     }
 
-    public void buildStat(Individual[] set) {
-        for (Individual person : set) addIndividual(person.getHaplotype());
-//        for (Individual ancestor : folk.getAncestors()) addIndividual(ancestor.getHaplotype());
-    }
     public void update(Folk folk) {
-        for (Individual person : folk.getLiving()) addIndividual(person.getHaplotype());
-//        for (Individual ancestor : folk.getAncestors()) addIndividual(ancestor.getHaplotype());
+        Arrays.stream(folk.getLiving())
+                .forEach(this::register);
+
+//        for (Individual ancestor : folk.getAncestors()) register(ancestor);
     }
 }

@@ -28,15 +28,13 @@ public class Folk implements Serializable {
         living = Arrays.asList(population);
         ancestors = new ArrayList<>();
         heads = living.size();
-        haploStatistic = new HaploStat();
-        haploStatistic.buildStat(population);
+        haploStatistic = new HaploStat(population);
     }
     public Folk(Individual[] population, Individual[] ancestors) {
         living = Arrays.asList(population);
         this.ancestors = Arrays.asList(ancestors);
         heads = living.size() + this.ancestors.size();
-        haploStatistic = new HaploStat();
-        haploStatistic.buildStat(population);
+        haploStatistic = new HaploStat(population);
     }
 
     public Folk(int popSize, int lifeSpan) {
@@ -44,7 +42,7 @@ public class Folk implements Serializable {
         heads = popSize;
         haploStatistic = new HaploStat();
         living = Arrays.asList(generatePopulation(popSize, lifeSpan, haploStatistic));
-        haploStatistic.update(this);
+        living.forEach(haploStatistic::register);
     }
 
     public static Individual[] generatePopulation(int popSize, int lifeSpan, HaploStat statBase) {

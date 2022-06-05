@@ -16,6 +16,9 @@ public class Individual {
         return base;
     }
 
+    /**
+     * База статистики, в которой учитывается индивид.
+     */
     private final HaploStat base;
 
     public Individual(int age, Haplotype haplotype, HaploStat base) {
@@ -24,6 +27,12 @@ public class Individual {
         this.base = base;
     }
 
+    /**
+     * Имитирует жизнь индивида в течение года:
+     * <li>увеличивается возраст,</li>
+     * <li>если суждено, регистрируется потомство,</li>
+     * <li>если суждено, уходит из популяции.</li></li>
+     */
     public void liveAYear() {
         age++;
         if (willBeget())
@@ -32,14 +41,25 @@ public class Individual {
             exclude();
     }
 
+    /**
+     * Изымает этого индивида из статистики.
+     */
     private void exclude() {
         base.exclude(this);
     }
 
+    /**
+     * Сообщает, собирается ли в этом году индивид отправиться к пращурам.
+     * @return {@code верно}, если в этом году этот индивид представится, {@code ложно} иначе.
+     */
     private boolean willExit() {
         return false;
     }
 
+    /**
+     * Сообщает, собирается ли в этом году индивид родить.
+     * @return {@code верно}, если в этом году этот индивид даст потомство, {@code ложно} иначе.
+     */
     private boolean willBeget() {
         return false;
     }
