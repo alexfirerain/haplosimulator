@@ -8,16 +8,21 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Individual {
+    /**
+     * Статистическая константа: на сколько приплодов приходится один мультиплет.
+     */
     private static final int MULTIPLEX_FACTOR = 20;
+    /**
+     * Возраст индивида в текущем году.
+     */
     private int age;
+    /**
+     * Гаплотип, несомый индивидом.
+     */
     private final Haplotype haplotype;
 
-    public HaploStat getBase() {
-        return base;
-    }
-
     /**
-     * База статистики, в которой учитывается индивид.
+     * База статистики, к учёту в которой привязан индивид.
      */
     private final HaploStat base;
 
@@ -65,14 +70,19 @@ public class Individual {
     }
 
     private void register(Individual[] beget) {
-        for (Individual creature : beget)
-            base.register(creature);
+        Arrays.stream(beget).forEach(base::register);
     }
 
 
+    /**
+     * Возвращает потомство, поставляемое индивидом в популяцию в этом году.
+     * @return массив новорожденных (с вероятностью 100 – 100/{@link #MULTIPLEX_FACTOR} %
+     * содержит одно дитё, вероятность каждого следующего близнеца в приплоде уменьшается
+     * в той же геометрической прогрессии).
+     */
     public Individual[] beget() {
         List<Individual> brood = new ArrayList<>(7);
-        brood.add(new Individual(0, haplotype, base)); // TODO: вставить мутатор
+        brood.add(new Individual(0, haplotype, base)); // TODO: вставить мутатор -> в конструктор
         double multiplexProbability = 1.0 / MULTIPLEX_FACTOR;
         while (Math.random() < multiplexProbability) {
             brood.add(new Individual(0, haplotype, base));
