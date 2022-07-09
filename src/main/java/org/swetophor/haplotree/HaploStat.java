@@ -1,5 +1,6 @@
 package org.swetophor.haplotree;
 
+import lombok.NoArgsConstructor;
 import org.swetophor.population.Folk;
 import org.swetophor.population.Individual;
 
@@ -10,6 +11,7 @@ import java.util.Map;
 /**
  * Статистика присутствия гаплотипов в популяции.
  */
+@NoArgsConstructor
 public class HaploStat {
     /**
      * Счётчик носителей гаплотипов
@@ -39,11 +41,18 @@ public class HaploStat {
      * @param ofType гаплотип, несомый новым индивидом.
      */
     public void addIndividual(Haplotype ofType) {
-        if (!haplotypes.containsKey(ofType)) haplotypes.put(ofType, 0);
-        haplotypes.put(ofType, haplotypes.get(ofType) + 1);
-        if (!mutations.containsKey(ofType.getTitle())) mutations.put(ofType.getTitle(), 0);
+        haplotypes.put(ofType,
+                haplotypes.containsKey(ofType) ?
+                        haplotypes.get(ofType) + 1 :
+                        1);
+
+
+        if (!mutations.containsKey(ofType.getTitle()))
+            mutations.put(ofType.getTitle(), 0);
+
         ofType.getMutations()
                 .forEach(mutation -> mutations.put(mutation, mutations.get(mutation) + 1));
+
         actualSize++;
     }
 

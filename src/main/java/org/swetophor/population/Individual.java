@@ -1,5 +1,6 @@
 package org.swetophor.population;
 
+import lombok.Getter;
 import org.swetophor.haplotree.HaploStat;
 import org.swetophor.haplotree.Haplotype;
 
@@ -7,11 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
 public class Individual {
-    /**
-     * Статистическая константа: на сколько приплодов приходится один мультиплет.
-     */
-    private static final int MULTIPLEX_FACTOR = 20;
     /**
      * Возраст индивида в текущем году.
      */
@@ -76,26 +74,19 @@ public class Individual {
 
     /**
      * Возвращает потомство, поставляемое индивидом в популяцию в этом году.
-     * @return массив новорожденных (с вероятностью 100 – 100/{@link #MULTIPLEX_FACTOR} %
+     * @return массив новорожденных (с вероятностью 100 – 100/{@link Properties#MULTIPLEX_FACTOR} %
      * содержит одно дитё, вероятность каждого следующего близнеца в приплоде уменьшается
      * в той же геометрической прогрессии).
      */
     public Individual[] beget() {
         List<Individual> brood = new ArrayList<>(7);
         brood.add(new Individual(0, haplotype, base)); // TODO: вставить мутатор -> в конструктор
-        double multiplexProbability = 1.0 / MULTIPLEX_FACTOR;
+        double multiplexProbability = 1.0 / Properties.MULTIPLEX_FACTOR;
         while (Math.random() < multiplexProbability) {
             brood.add(new Individual(0, haplotype, base));
-            multiplexProbability /= MULTIPLEX_FACTOR;
+            multiplexProbability /= Properties.MULTIPLEX_FACTOR;
         }
         return brood.toArray(new Individual[0]);
     }
 
-    public Haplotype getHaplotype() {
-        return haplotype;
-    }
-
-    public int getAge() {
-        return age;
-    }
 }
