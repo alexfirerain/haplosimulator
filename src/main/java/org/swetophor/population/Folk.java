@@ -1,5 +1,6 @@
 package org.swetophor.population;
 
+import lombok.Getter;
 import org.swetophor.haplotree.HaploStat;
 import org.swetophor.haplotree.Haplotype;
 
@@ -14,6 +15,7 @@ public class Folk implements Serializable {
     private static final long serialVersionUID = 1L;
     private final List<Individual> living;
     private final List<Individual> ancestors;
+    @Getter
     private long heads;         // синонимично nextIndex
     transient public final HaploStat haploStatistic;
 
@@ -73,10 +75,6 @@ public class Folk implements Serializable {
         return "X";
     }
 
-
-    public long getHeads() {
-        return heads;
-    }
 
     public Individual[] getAncestors() {
         return ancestors.toArray(new Individual[0]);

@@ -20,9 +20,9 @@ public class Haplogroup {
         return new Haplogroup("ROOT", "0", null);
     }
 
-    public Haplogroup divide(String newName, String forType) {
-        Haplogroup newGroup = new Haplogroup(newName, forType, this);
-        descendents.add(newGroup);
-        return newGroup;
+    public Haplogroup stem(String newName, String forType) {
+        Haplogroup offspring = new Haplogroup(newName, forType, this);
+        descendents.add(offspring);
+        return offspring;
     }
 }

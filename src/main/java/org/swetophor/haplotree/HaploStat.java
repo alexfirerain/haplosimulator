@@ -16,20 +16,15 @@ public class HaploStat {
     /**
      * Счётчик носителей гаплотипов
      */
-    private final Map<Haplotype, Integer> haplotypes;
+    private final Map<Haplotype, Integer> haplotypes = new HashMap<>();
     /**
      * Счётчик носителей конкретных мутаций
      */
-    private final Map<String, Integer> mutations;
+    private final Map<String, Integer> mutations = new HashMap<>();
     /**
      * Счётчик актуального размера популяции
      */
-    private long actualSize;
-
-    public HaploStat() {
-        haplotypes = new HashMap<>();
-        mutations = new HashMap<>();
-    }
+    private long actualSize = 0;
 
     public HaploStat(Individual[] population) {
         this();

@@ -15,26 +15,25 @@ public class HaploSimulator {
 
         Arrays.stream(population.getLiving())
                 .map(Individual::getAge)
-                .forEach(z -> {
-                    if (!ageStat.containsKey(z))
-                        ageStat.put(z, 1);
-                    else
-                        ageStat.put(z, ageStat.get(z) + 1);
-                });
+                .forEach(z -> ageStat.merge(z, 1, Integer::sum));
 
-        for (Map.Entry<Integer, Integer> value : ageStat.entrySet())
-            System.out.printf("%d год/лет: %d чел.%n", value.getKey(), value.getValue());
+        ageStat.forEach((key, value1) ->
+                System.out.printf("%d год/лет: %d чел.%n", key, value1));
 
         for (int i = 0; i <= ageStat.lastKey(); i++) {
             System.out.printf("%n%3d: ", i);
             if (ageStat.containsKey(i))
-                plot(ageStat.get(i), "§");
+                plot(ageStat.get(i));
         }
 
     }
 
-    private static void plot(int amount, String symbol) {
-        IntStream.range(0, amount).mapToObj(i -> symbol).forEach(System.out::print);
+    private static void plot(int amount, char symbol) {
+        System.out.println(String.valueOf(symbol).repeat(amount));
+    }
+
+    private static void plot(int amount) {
+        plot(amount, '§');
     }
 
 }
